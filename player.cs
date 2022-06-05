@@ -7,6 +7,11 @@ public class player : MonoBehaviour
     public int heal;
     public float speed;
     private float moveInput;
+    private bool isGrouned;
+    public Transform feetPos;
+    public float checkRadius;
+    public LayerMask whatIsGround;
+    public float jumpForce;
 
     private Animator anim;
     private Rigidbody2D rb;
@@ -23,7 +28,11 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        isGrouned = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
+        if (isGrouned == true && Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.velocity = Vector2.up * jumpForce;
+        }
     }
     private void FixedUpdate()
     {

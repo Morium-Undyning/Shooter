@@ -5,7 +5,8 @@ using UnityEngine;
 public class player : MonoBehaviour
 {
     public int heal;
-    private float speed;
+    public float speed;
+    private float moveInput;
 
     private Animator anim;
     private Rigidbody2D rb;
@@ -26,13 +27,13 @@ public class player : MonoBehaviour
     }
     private void FixedUpdate()
     {
-
-        rb.velocity = new Vector2(speed, rb.velocity.y);
-        if (facingRight == false)
+        moveInput = Input.GetAxis("Horizontal");
+        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        if (facingRight == false && moveInput > 0)
         {
             Flip();
         }
-        else if (facingRight == true)
+        else if (facingRight == true && moveInput < 0)
         {
             Flip();
         }

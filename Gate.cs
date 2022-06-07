@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class Gate : MonoBehaviour
 {
-    int k;
+    static public int k = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,18 +23,20 @@ public class Gate : MonoBehaviour
         if (other.tag == "Player")
         {
             if (k==1) {
-                k++;
+               
                 SceneManager.LoadScene("Scene2");
+                k++;
             }
             if (k == 2)
             {
-                k++;
+                
                 SceneManager.LoadScene("Scene3");
+                k++;
             }
             if (k == 3)
             {
-                k++;
                 SceneManager.LoadScene("Boss");
+                k++;
             }
         }
     }

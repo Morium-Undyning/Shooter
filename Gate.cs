@@ -25,19 +25,20 @@ public class Gate : MonoBehaviour
             if (k==1) {
                
                 SceneManager.LoadScene("Scene2");
-                k++;
+                
             }
-            if (k == 2)
+            else if (k == 2)
             {
                 
                 SceneManager.LoadScene("Scene3");
-                k++;
+                
             }
-            if (k == 3)
+            else if (k == 3)
             {
                 SceneManager.LoadScene("Boss");
-                k++;
+                
             }
+            k++;
         }
     }
 }

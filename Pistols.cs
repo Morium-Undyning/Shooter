@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Pistols : MonoBehaviour
 {
@@ -11,6 +12,14 @@ public class Pistols : MonoBehaviour
 
     private float timeShot;
     public float startTime;
+
+    public int currentAmmo = 15 ;
+    public int allAmmo = 0;
+    public int fullAmmo = 45;
+
+    [SerializeField]
+    private Text ammoCount;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,10 +35,11 @@ public class Pistols : MonoBehaviour
 
         if (timeShot <= 0)
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && currentAmmo>0)
             {
                 Instantiate(ammo, shotDir.position, transform.rotation);
                 timeShot = startTime;
+                currentAmmo --;
             }
             
         }
@@ -37,6 +47,34 @@ public class Pistols : MonoBehaviour
         {
             timeShot -= Time.deltaTime;
         }
+        ammoCount.text= currentAmmo +" / " + allAmmo;
 
+        if(Input.GetKeyDown(KeyCode.R) && allAmmo > 0){
+            Reload();
+        }
+
+    }
+    private void  OnTriggerEnter2D(Collider2D other) {
+        if(other.GetComponent<PistolClip>())
+        {
+        allAmmo += 15;
+        Destroy(other.gameObject);
+        }
+       
+    }
+    public void Reload(){
+
+        int reason = 15 - currentAmmo;
+        if(allAmmo >= reason){
+            allAmmo = allAmmo - reason;
+            currentAmmo = 15;
+        }
+        else{
+            currentAmmo = currentAmmo + allAmmo;
+            allAmmo = 0;
+        }
+        
+
+       
     }
 }

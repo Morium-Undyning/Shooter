@@ -50,7 +50,7 @@ public class Pistols : MonoBehaviour
         ammoCount.text= currentAmmo +" / " + allAmmo;
 
         if(Input.GetKeyDown(KeyCode.R) && allAmmo > 0){
-            Reload();
+            Invoke("Reload",2f);
         }
 
     }

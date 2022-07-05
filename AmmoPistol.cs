@@ -6,6 +6,8 @@ public class AmmoPistol : MonoBehaviour
 {
     public float speed;
     public float destroyTime;
+
+    public int damage;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +21,14 @@ public class AmmoPistol : MonoBehaviour
     }
     private void DestroyAmmo()
     {
+        Destroy(gameObject);
+    }
+    private void OnTriggerEnter2D(Collider2D collision) {
+        Eneny enemy = collision.GetComponent<Eneny>();
+
+        if(enemy != null){
+            enemy.TakeDamage(damage);
+        }
         Destroy(gameObject);
     }
 }

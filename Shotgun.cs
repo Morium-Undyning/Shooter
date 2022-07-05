@@ -3,27 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Pistols : MonoBehaviour
+public class Shotgun : MonoBehaviour
 {
     public float offset;
 
     public GameObject ammo;
     public Transform shotDir;
 
+    public GameObject ammoPistol;
+    public Pistols pistol;
+
     private float timeShot;
     public float startTime;
 
-    public int currentAmmo = 15 ;
+    public int currentAmmo = 8 ;
     public int allAmmo = 0;
-    public int fullAmmo = 45;
+    public int fullAmmo = 24;
 
     [SerializeField]
-    public Text ammoCount;
+    private Text ammoCount;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        ammoCount.text= currentAmmo + " / " + allAmmo;
     }
 
     // Update is called once per frame
@@ -48,32 +51,47 @@ public class Pistols : MonoBehaviour
             timeShot -= Time.deltaTime;
         }
         ammoCount.text= currentAmmo +" / " + allAmmo;
+        pistol.ammoCount.text= pistol.currentAmmo +" / " + pistol.allAmmo;
 
         if(Input.GetKeyDown(KeyCode.R) && allAmmo > 0){
-            Invoke("Reload",2f);
+            StartCoroutine(Reload());
         }
 
     }
     private void  OnTriggerEnter2D(Collider2D other) {
+        if(other.GetComponent<ShotgunClip>())
+        {
+        allAmmo += 8;
+        Destroy(other.gameObject);
+        }
         if(other.GetComponent<PistolClip>())
         {
-        allAmmo += 15;
+        pistol.allAmmo +=15;
         Destroy(other.gameObject);
         }
        
     }
-    public void Reload(){
+    public IEnumerator Reload(){
 
-        int reason = 15 - currentAmmo;
-        if(allAmmo >= reason){
-            allAmmo = allAmmo - reason;
-            currentAmmo = 15;
-        }
-        else{
-            currentAmmo = currentAmmo + allAmmo;
-            allAmmo = 0;
-        }
+        int reason = 8 - currentAmmo;
+
         
+        if(allAmmo >= reason)
+        {
+            for (int i = 0; i < reason; i++)
+            {
+               yield return new WaitForSeconds(1);
+               currentAmmo +=1;
+               allAmmo -=1;
+            }
+        }else{
+            for (int i = 0; i < allAmmo; i++)
+            {
+               yield return new WaitForSeconds(1);
+               currentAmmo +=1;
+               allAmmo -=1;
+            }
+        }
 
        
     }

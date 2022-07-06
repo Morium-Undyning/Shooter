@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Shotgun : MonoBehaviour
+public class AK47 : MonoBehaviour
 {
     public float offset;
 
@@ -13,15 +13,15 @@ public class Shotgun : MonoBehaviour
     public GameObject ammoPistol;
     public Pistols pistol;
 
-    public GameObject ammoAK47;
-    public AK47 ak47;
+    public Shotgun shotgun;
+    public GameObject ammoShotgun;
 
     private float timeShot;
     public float startTime;
 
-    public int currentAmmo = 8 ;
+    public int currentAmmo = 30 ;
     public int allAmmo = 0;
-    public int fullAmmo = 24;
+    public int fullAmmo = 150;
 
     [SerializeField]
     public Text ammoCount;
@@ -29,7 +29,7 @@ public class Shotgun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ammoCount.text= currentAmmo + " / " + allAmmo;
+        ammoCount.text= currentAmmo +" / " + allAmmo;
     }
 
     // Update is called once per frame
@@ -55,17 +55,23 @@ public class Shotgun : MonoBehaviour
         }
         ammoCount.text= currentAmmo +" / " + allAmmo;
         pistol.ammoCount.text= pistol.currentAmmo +" / " + pistol.allAmmo;
-        ak47.ammoCount.text= ak47.currentAmmo +" / " + ak47.allAmmo;
+        shotgun.ammoCount.text= shotgun.currentAmmo +" / " + shotgun.allAmmo;
+        
 
         if(Input.GetKeyDown(KeyCode.R) && allAmmo > 0){
-            StartCoroutine(Reload());
+            Invoke("Reload",4f);
         }
 
     }
     private void  OnTriggerEnter2D(Collider2D other) {
-        if(other.GetComponent<ShotgunClip>())
+        if(other.GetComponent<AK47Clip>())
         {
-        allAmmo += 8;
+        allAmmo += 30;
+        Destroy(other.gameObject);
+        }
+        else if(other.GetComponent<ShotgunClip>())
+        {
+        shotgun.allAmmo += 8;
         Destroy(other.gameObject);
         }
         else if(other.GetComponent<PistolClip>())
@@ -73,34 +79,20 @@ public class Shotgun : MonoBehaviour
         pistol.allAmmo +=15;
         Destroy(other.gameObject);
         }
-        else if(other.GetComponent<AK47Clip>())
-        {
-        ak47.allAmmo +=30;
-        Destroy(other.gameObject);
-        }
        
     }
-    public IEnumerator Reload(){
+    public void Reload(){
 
-        int reason = 8 - currentAmmo;
-
-        
-        if(allAmmo >= reason)
-        {
-            for (int i = 0; i < reason; i++)
-            {
-               yield return new WaitForSeconds(1);
-               currentAmmo +=1;
-               allAmmo -=1;
-            }
-        }else{
-            for (int i = 0; i < allAmmo; i++)
-            {
-               yield return new WaitForSeconds(1);
-               currentAmmo +=1;
-               allAmmo -=1;
-            }
+        int reason = 30 - currentAmmo;
+        if(allAmmo >= reason){
+            allAmmo = allAmmo - reason;
+            currentAmmo = 30;
         }
+        else{
+            currentAmmo = currentAmmo + allAmmo;
+            allAmmo = 0;
+        }
+        
 
        
     }

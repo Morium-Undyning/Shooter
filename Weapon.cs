@@ -6,6 +6,11 @@ public class Weapon : MonoBehaviour
 {
     // Start is called before the first frame update
     public int WeaponSwithc = 0;
+
+    public int WeaponOpened = 3;
+
+    static public bool akPickeUd = false;
+    static public bool shotgunPickeUd = true;
     void Start()
     {
         SelectWeapon();
@@ -17,7 +22,7 @@ public class Weapon : MonoBehaviour
         int cuuurentWeapon = WeaponSwithc;
        if(Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
-            if(WeaponSwithc >= transform.childCount - 1)
+            if(WeaponSwithc >= transform.childCount - WeaponOpened)
             {
                 WeaponSwithc = 0;
             }
@@ -30,7 +35,7 @@ public class Weapon : MonoBehaviour
         {
             if (WeaponSwithc <= 0)
             {
-                WeaponSwithc =transform.childCount-1;
+                WeaponSwithc =transform.childCount-WeaponOpened;
             }
             else
             {
@@ -41,11 +46,11 @@ public class Weapon : MonoBehaviour
         {
             WeaponSwithc = 0;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >=2)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && shotgunPickeUd == true)
         {
             WeaponSwithc = 1;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 3)
+        if (Input.GetKeyDown(KeyCode.Alpha3) && akPickeUd == true)
         {
             WeaponSwithc = 2;
         }
@@ -65,6 +70,14 @@ public class Weapon : MonoBehaviour
             else
                 weapon.gameObject.SetActive(false);
             i++;
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D other) {
+        if(other.gameObject.tag=="AK"){
+            WeaponOpened --;
+            akPickeUd = true;
+            Destroy(other.gameObject);
         }
     }
 }

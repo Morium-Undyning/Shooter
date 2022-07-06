@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class player : MonoBehaviour
 {
     public int heal;
+    public int numberOfLives;
+    public Image[] lives;
+    public Sprite fullLive;
+    public Sprite emptyLive;
+
     public float speed;
     private float moveInput;
     private bool isGrouned;
@@ -28,6 +34,26 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(heal > numberOfLives){
+            heal = numberOfLives;
+        }
+
+
+        for(int i=0; i < lives.Length;i++){
+            if(i< heal){
+                lives[i].sprite = fullLive;
+            }else{
+                lives[i].sprite = emptyLive;
+            }
+
+
+            if(i < numberOfLives){
+                lives[i].enabled =true; 
+            }else{
+                lives[i].enabled =false;
+            }
+        }
+
         isGrouned = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
         if (isGrouned == true && Input.GetKeyDown(KeyCode.Space))
         {

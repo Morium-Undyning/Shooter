@@ -10,6 +10,12 @@ public class Pistols : MonoBehaviour
     public GameObject ammo;
     public Transform shotDir;
 
+    public Shotgun shotgun;
+    public GameObject ammoShotgun;
+
+    public GameObject ammoAK47;
+    public AK47 ak47;
+
     private float timeShot;
     public float startTime;
 
@@ -48,6 +54,8 @@ public class Pistols : MonoBehaviour
             timeShot -= Time.deltaTime;
         }
         ammoCount.text= currentAmmo +" / " + allAmmo;
+        shotgun.ammoCount.text= shotgun.currentAmmo +" / " + shotgun.allAmmo;
+        ak47.ammoCount.text= ak47.currentAmmo +" / " + ak47.allAmmo;
 
         if(Input.GetKeyDown(KeyCode.R) && allAmmo > 0){
             Invoke("Reload",2f);
@@ -58,6 +66,16 @@ public class Pistols : MonoBehaviour
         if(other.GetComponent<PistolClip>())
         {
         allAmmo += 15;
+        Destroy(other.gameObject);
+        }
+        else if(other.GetComponent<ShotgunClip>())
+        {
+        shotgun.allAmmo += 8;
+        Destroy(other.gameObject);
+        }
+        else if(other.GetComponent<AK47Clip>())
+        {
+        ak47.allAmmo +=30;
         Destroy(other.gameObject);
         }
        

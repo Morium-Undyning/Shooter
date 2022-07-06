@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     public int WeaponSwithc = 0;
 
-    public int WeaponOpened = 3;
+    static public int WeaponOpened = 2;
 
     static public bool akPickeUd = false;
     static public bool shotgunPickeUd = true;

@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class player : MonoBehaviour
 {
+#region (health attribute)
     public int heal;
     public int numberOfLives;
     public Image[] lives;
     public Sprite fullLive;
     public Sprite emptyLive;
+#endregion
 
     public float speed;
     private float moveInput;
@@ -34,8 +37,12 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        #region (health system)
         if(heal > numberOfLives){
             heal = numberOfLives;
+        }
+        else if (heal <=0){
+            SceneManager.LoadScene(Gate.k);
         }
 
 
@@ -53,6 +60,7 @@ public class player : MonoBehaviour
                 lives[i].enabled =false;
             }
         }
+        #endregion
 
         isGrouned = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
         if (isGrouned == true && Input.GetKeyDown(KeyCode.Space))
@@ -77,5 +85,11 @@ public class player : MonoBehaviour
     {
         facingRight = !facingRight;
         transform.Rotate(0f,180f,0f);
+    }
+    public  void OnTriggerEnter2D(Collider2D other) {
+        if(other.tag == "health"){
+            heal++;
+            Destroy(other.gameObject);
+        }
     }
 }

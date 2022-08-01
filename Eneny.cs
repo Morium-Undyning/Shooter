@@ -8,7 +8,7 @@ public class Eneny : MonoBehaviour
     public int positionOfPatrol;
     public Transform point;
     public bool movingRight;
-    public bool facingRight = true;
+    static public bool facingRight = true;
 
     public Transform player;
     public float stoppingDistance;
@@ -43,10 +43,6 @@ public class Eneny : MonoBehaviour
         }
     }
 
-    public void Angry (){
-        transform.position = Vector2.MoveTowards(transform.position,player.position,speed*Time.deltaTime);
-        speed=2;
-    }
 
     public void GoBack(){
     transform.position = Vector2.MoveTowards(transform.position,point.position,speed*Time.deltaTime);

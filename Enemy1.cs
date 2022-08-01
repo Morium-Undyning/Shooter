@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Enemy1 : Eneny
 {
-    // Start is called before the first frame update
+    public GameObject ammo;
+    public Transform shotDir;
+
+    public float startTime;
+    private float timeShot =0;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -16,13 +21,13 @@ public class Enemy1 : Eneny
         if(Vector2.Distance(transform.position, point.position) < positionOfPatrol&& angry == false ){
             chill=true;
             if (facingRight == false && movingRight == false)
-        {
-           Flip();
-        }
+            {
+               Flip();
+            }
         else if (facingRight == true && movingRight == true)
-        {
-           Flip();
-        }
+            {
+               Flip();
+            }
         }
         if(Vector2.Distance(transform.position,player.position) < stoppingDistance){
             angry=true;
@@ -42,9 +47,9 @@ public class Enemy1 : Eneny
            Flip();
         }
         else if (facingRight == true && movingRight == true)
-        {
-           Flip();
-        }
+            {
+                Flip();
+            }
         }
 
         if(chill == true){
@@ -57,6 +62,16 @@ public class Enemy1 : Eneny
             GoBack();
         }
         
+        
+    }
+    
+    void Angry (){
+        if(timeShot<=0){
+            Instantiate(ammo, shotDir.position, transform.rotation);
+            timeShot=startTime;
+        }else{
+            timeShot-=Time.deltaTime;
+        }
         
     }
 }

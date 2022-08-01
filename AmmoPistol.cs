@@ -6,18 +6,41 @@ public class AmmoPistol : MonoBehaviour
 {
     public float speed;
     public float destroyTime;
+    public SpriteRenderer sr;
 
     public int damage;
+
+    bool a = true;
+    bool b = true;
     // Start is called before the first frame update
     void Start()
     {
+        sr= GetComponent<SpriteRenderer>();
         Invoke("DestroyAmmo", destroyTime);
+        if(player.facingRight == false){
+            b=false;
+        }else{
+            a=false;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
+        
+        
+        if(b==false){
+            
+           transform.Translate(Vector2.left * speed * Time.deltaTime);
+           sr.flipX = true;
+        }
+         if(a==false){
+ 
+            transform.Translate(Vector2.right * speed * Time.deltaTime);
+            
+        }
+        
+        
     }
     private void DestroyAmmo()
     {

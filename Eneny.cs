@@ -7,49 +7,29 @@ public class Eneny : MonoBehaviour
     public float speed;
     public int positionOfPatrol;
     public Transform point;
-    bool movingRight;
+    public bool movingRight;
+    public bool facingRight = true;
 
-    Transform player;
+    public Transform player;
     public float stoppingDistance;
 
-    bool chill = false;
-    bool angry = false;
-    bool goBack = false;
+    public bool chill = false;
+    public bool angry = false;
+    public bool goBack = false;
 
     public int health = 10;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Vector2.Distance(transform.position, point.position) < positionOfPatrol&& angry == false ){
-            chill=true;
-        }
-        if(Vector2.Distance(transform.position,player.position) < stoppingDistance){
-            angry=true;
-            chill=false;
-            goBack=false;
-        }
-        else if(Vector2.Distance(transform.position,player.position) > stoppingDistance){
-            goBack=true;
-            angry =false;
-        }
-
-        if(chill == true){
-            Chill();
-        }
-        else if(angry==true){
-            Angry();
-        }
-        else if(goBack==true){
-            GoBack();
-        }
+        
     }
-    void Chill(){
+    public void Chill(){
         if(transform.position.x > point.position.x + positionOfPatrol){
             movingRight = false;
         }
@@ -63,12 +43,12 @@ public class Eneny : MonoBehaviour
         }
     }
 
-    void Angry (){
+    public void Angry (){
         transform.position = Vector2.MoveTowards(transform.position,player.position,speed*Time.deltaTime);
         speed=2;
     }
 
-    void GoBack(){
+    public void GoBack(){
     transform.position = Vector2.MoveTowards(transform.position,point.position,speed*Time.deltaTime);
     speed =1;
     }
@@ -81,5 +61,11 @@ public class Eneny : MonoBehaviour
     }
     void Die(){
         Destroy(gameObject);
+    }
+    public void Flip()
+    {
+        transform.localScale *= new Vector2(-1,1);
+        facingRight = !facingRight;
+        
     }
 }

@@ -24,8 +24,7 @@ public class player : MonoBehaviour
 
     private Animator anim;
     private Rigidbody2D rb;
-    private bool facingRight = true;
-
+    static public bool facingRight = true;
 
     void Start()
     {
@@ -72,19 +71,21 @@ public class player : MonoBehaviour
     {
         moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-        if (facingRight == false && moveInput > 0)
-        {
-            Flip();
-        }
-        else if (facingRight == true && moveInput < 0)
-        {
-            Flip();
-        }
+        Flip();
     }
     void Flip()
     {
-        facingRight = !facingRight;
-        transform.Rotate(0f,180f,0f);
+        if (facingRight == false && moveInput > 0)
+        {
+           transform.localScale *= new Vector2(-1,1);
+           facingRight = !facingRight;
+        }
+        else if (facingRight == true && moveInput < 0)
+        {
+            transform.localScale *= new Vector2(-1,1);
+            facingRight = !facingRight;
+        }
+        
     }
     public  void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "health"){
